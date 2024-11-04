@@ -47,7 +47,6 @@ end
 
 function npsTotal = Calcularnps(Padtotal)
 
-PixelSize = 0.4454;
 Dft_total = zeros(size(Padtotal,1),size(Padtotal,2));
 
 for i = 1:size(Padtotal,3)
@@ -85,23 +84,23 @@ ylabel('Pixel')
 
 PixelSize = 0.4454;
 
-function Norma = Normalizarnps(K_array_correc,npsTotal, resta)
+function Norma = Normalizarnps(K_array_correc,npsTotal)
 
 PixelSize = 0.4454;
 [dimX,~] = size(npsTotal); 
 
-desv_est = std2(K_array_correc(231:280,231:280,10)); % desviacion estandar la ROI central
+varianza = var(K_array_correc(231:280,231:280,10), 0, 'all'); 
 
 sumatoria = sum(npsTotal(:));
 
-Norma = (desv_est*(dimX*PixelSize)^2)/sumatoria;
+Norma = (varianza*(dimX*PixelSize)^2)/sumatoria;
 end
 
-Norma1 = Normalizarnps(K1_array_correc,npsTotal_K1,resta1);
-Norma2 = Normalizarnps(K2_array_correc,npsTotal_K2,resta2);
+Norma1 = Normalizarnps(K1_array_correc,npsTotal_K1);
+Norma2 = Normalizarnps(K2_array_correc,npsTotal_K2);
 
 % Mostrar el valor
-disp(['El valor de la norma 1 es: ', num2str(Norma1), ]);
+disp(['El valor de la norma correspondiente al kernel 1 es: ', num2str(Norma1), ]);
 
 [dimX,dimY] = size(npsTotal_K1);
 % También N = delta_x*delta_y / NxNy de la roi 
@@ -111,7 +110,7 @@ Norma_prima = (PixelSize*PixelSize) / (50*50);
 disp(['El valor de la norma prima es: ', num2str(Norma_prima), ]);
 
 % Mostrar el valor
-disp(['El valor de la norma 2 es: ', num2str(Norma2), ]);
+disp(['El valor de la norma correspondiente al kernel 2 es: ', num2str(Norma2), ]);
 
 
 
